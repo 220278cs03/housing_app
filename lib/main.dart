@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:housing_app/view/pages/home_page.dart';
+import 'package:housing_app/view/pages/main_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Widget? child) {
         return const MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: HomePage(),
+          home: MainPage(),
         );
       },
     );
