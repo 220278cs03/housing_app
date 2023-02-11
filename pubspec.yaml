@@ -41,6 +41,7 @@ dependencies:
   flutter_screenutil: ^5.6.0
   google_fonts: ^3.0.1
   proste_indexed_stack: ^0.2.4
+  cloud_firestore: ^4.3.1
 
 dev_dependencies:
   flutter_test:
