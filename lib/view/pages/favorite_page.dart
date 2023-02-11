@@ -11,7 +11,6 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-
   List listOfCategoryName = ["All", "House", "Villa", "Apartment"];
 
   @override
@@ -19,41 +18,40 @@ class _FavoritePageState extends State<FavoritePage> {
     return Scaffold(
         body: Padding(
       padding: const EdgeInsets.only(top: 39, left: 24, right: 24),
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, children: [
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
           children: [
             Text(
               "Favorite",
               style: Style.textStyleRegular(size: 26),
             ),
-            Spacer(),
+            const Spacer(),
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: Style.bgCategory,
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         color: Style.shadowColor,
                         offset: Offset(0, 0),
                         blurRadius: 50)
                   ]),
-              child: Icon(Icons.search, color: Style.primaryBlue),
+              child: const Icon(Icons.search, color: Style.primaryBlue),
             ),
             16.horizontalSpace,
             Container(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   color: Style.bgCategory,
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                         color: Style.shadowColor,
                         offset: Offset(0, 0),
                         blurRadius: 50)
                   ]),
-              child: Icon(Icons.filter_list, color: Style.primaryBlue),
+              child: const Icon(Icons.filter_list, color: Style.primaryBlue),
             ),
           ],
         ),
@@ -61,32 +59,42 @@ class _FavoritePageState extends State<FavoritePage> {
         SizedBox(
           height: 36,
           child: ListView.builder(
-            itemCount: 4,
+              itemCount: 4,
               scrollDirection: Axis.horizontal,
-              physics: BouncingScrollPhysics(),
-              itemBuilder: (context, index){
-              return Container(
-                padding: EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                margin: EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(24),
-                  border: Border.all(color: Style.primaryBlue),
-                  color: Style.whiteColor
-                ),
-                child: Text(listOfCategoryName[index], style: Style.textStyleRegular(size: 16, textColor: Style.primaryBlue),),
-              );
-          }),
+              physics: const BouncingScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+                  margin: const EdgeInsets.only(right: 8),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      border: Border.all(color: Style.primaryBlue),
+                      color: Style.whiteColor),
+                  child: Text(
+                    listOfCategoryName[index],
+                    style: Style.textStyleRegular(
+                        size: 16, textColor: Style.primaryBlue),
+                  ),
+                );
+              }),
         ),
         120.verticalSpace,
         Center(
           child: Column(
             children: [
-              Container(
+              SizedBox(
                   height: 280,
                   width: 290,
-                  child: Image.asset("assets/image/not_favorite.png", fit: BoxFit.cover,)),
+                  child: Image.asset(
+                    "assets/image/not_favorite.png",
+                    fit: BoxFit.cover,
+                  )),
               24.verticalSpace,
-              Text("You don't have a favorite", style: Style.textStyleRegular(size: 26, textColor: Style.primaryBlue),)
+              Text(
+                "You don't have a favorite",
+                style: Style.textStyleRegular(
+                    size: 26, textColor: Style.primaryBlue),
+              )
             ],
           ),
         )

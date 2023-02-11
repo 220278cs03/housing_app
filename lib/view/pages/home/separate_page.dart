@@ -24,7 +24,7 @@ class _SeparatePageState extends State<SeparatePage> {
             Row(
               children: [
                 GestureDetector(
-                  child: Icon(
+                  child: const Icon(
                     Icons.arrow_back,
                     color: Style.primaryBlue,
                   ),
@@ -37,19 +37,19 @@ class _SeparatePageState extends State<SeparatePage> {
                   widget.title,
                   style: Style.textStyleRegular(size: 26),
                 ),
-                Spacer(),
+                const Spacer(),
                 Container(
-                  padding: EdgeInsets.all(10),
+                  padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
                       color: Style.bgCategory,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
+                      boxShadow: const [
                         BoxShadow(
                             color: Style.shadowColor,
                             offset: Offset(0, 0),
                             blurRadius: 50)
                       ]),
-                  child: Icon(Icons.search, color: Style.primaryBlue),
+                  child: const Icon(Icons.search, color: Style.primaryBlue),
                 )
               ],
             ),
@@ -61,7 +61,7 @@ class _SeparatePageState extends State<SeparatePage> {
                   itemBuilder: (context, index) {
                     return Container(
                       width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(bottom: 24),
+                      margin: const EdgeInsets.only(bottom: 24),
                       decoration: BoxDecoration(
                           color: Style.whiteColor,
                           border: Border.all(color: Style.borderCategory),
@@ -71,7 +71,7 @@ class _SeparatePageState extends State<SeparatePage> {
                           Container(
                             height: 160,
                             width: MediaQuery.of(context).size.width,
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                                 color: Style.primaryBlue,
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(20),
@@ -83,9 +83,9 @@ class _SeparatePageState extends State<SeparatePage> {
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SizedBox.shrink(),
+                                  const SizedBox.shrink(),
                                   Container(
-                                    padding: EdgeInsets.symmetric(
+                                    padding: const EdgeInsets.symmetric(
                                         horizontal: 8, vertical: 4),
                                     decoration: BoxDecoration(
                                         color:
@@ -93,7 +93,7 @@ class _SeparatePageState extends State<SeparatePage> {
                                         borderRadius: BorderRadius.circular(6)),
                                     child: Row(
                                       children: [
-                                        Icon(
+                                        const Icon(
                                           Icons.star,
                                           color: Style.yellowColor,
                                           size: 18,
@@ -121,7 +121,7 @@ class _SeparatePageState extends State<SeparatePage> {
                                 Row(
                                   children: [
                                     Container(
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 8, vertical: 4),
                                       decoration: BoxDecoration(
                                           color: Style.whiteColor,
@@ -136,7 +136,7 @@ class _SeparatePageState extends State<SeparatePage> {
                                             textColor: Style.primaryBlue),
                                       ),
                                     ),
-                                    Spacer(),
+                                    const Spacer(),
                                     RichText(
                                         text: TextSpan(children: [
                                       TextSpan(
@@ -161,7 +161,7 @@ class _SeparatePageState extends State<SeparatePage> {
                                 ),
                                 Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       Icons.location_on,
                                       color: Style.primaryBlue,
                                     ),
@@ -170,8 +170,8 @@ class _SeparatePageState extends State<SeparatePage> {
                                       "Surabaya, Indonesia",
                                       style: Style.textStyleThin(size: 11),
                                     ),
-                                    Spacer(),
-                                    Icon(
+                                    const Spacer(),
+                                    const Icon(
                                       Icons.favorite_border,
                                       color: Style.primaryBlue,
                                     )
