@@ -15,11 +15,11 @@ class HomeModel {
     required this.rate,
     required this.like});
 
-  factory HomeModel.fromJson(Map data){
+  factory HomeModel.fromJson(Map data,String categoryName){
     return HomeModel(name: data["name"],
         image: data["image"],
         location: data["location"],
-        category: data["category"],
+        category: categoryName,
         price: data["price"],
         rate: data["rate"],
         like: data["like"] ?? false);

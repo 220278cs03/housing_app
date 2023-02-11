@@ -8,10 +8,15 @@ class HomeController extends ChangeNotifier {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<HomeModel> listOfHome = [];
   List<CategoryModel> listOfCategory = [];
-  List listOfCategoryId = [];
+  List<HomeModel> listOfLiked = [];
+  List listOfHomeId = [];
+  List listOfLikedId = [];
   List listOfCategoryName = [];
   bool isProductLoading = false;
   bool isCategoryLoading = false;
+  bool isLikedLoading = false;
+  bool isLike = false;
+
 
   String categoryName = "";
 
@@ -21,16 +26,18 @@ class HomeController extends ChangeNotifier {
     var res;
     res = await firestore.collection("home").get();
     listOfHome.clear();
-    listOfCategoryId.clear();
+    listOfHomeId.clear();
     for (var element in res.docs) {
-      listOfHome.add(HomeModel.fromJson(element.data()));
+      var resCategory = await firestore
+          .collection("category")
+          .doc(element.data()["category"])
+          .get();
+      listOfHome
+          .add(HomeModel.fromJson(element.data(), resCategory.data()?["name"]));
+      listOfHomeId.add(element.id);
     }
-      for (var element in listOfHome) {
-        listOfCategoryId.add(element.category);
-      }
-      print(listOfCategoryId);
-      isProductLoading = false;
-      notifyListeners();
+    isProductLoading = false;
+    notifyListeners();
   }
 
   getCategory() async {
@@ -45,19 +52,58 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  getCategoryName() async {
-    isCategoryLoading = true;
+  changeLike(int index) {
+    listOfHome[index].like = !listOfHome[index].like;
+    List addDocIdList = [];
+    firestore
+        .collection("home")
+        .doc(listOfHomeId[index])
+        .update({"like": listOfHome[index].like});
     notifyListeners();
-    listOfCategoryName.clear();
-    for(int i=0; i<listOfCategoryId.length; i++){
-      final docRef = await firestore.collection("category").doc(listOfCategoryId[i]).get();
-      var name = CategoryModel.fromJson(docRef.data()!);
-      listOfCategoryName.add(name.name);
-    }
-    print(listOfCategoryId.length);
-   // print(listOfCategoryName);
-    isCategoryLoading = false;
-    notifyListeners();
-    //notifyListeners();
   }
+
+  checkIfThereIsLike(){
+    for(int i=0; i<listOfHome.length; i++){
+      if(listOfHome[i].like){
+        isLike = true;
+        break;
+      }
+    }
+  }
+
+  getAllLiked() async {
+    isLikedLoading = true;
+    notifyListeners();
+    var res;
+    res = await firestore.collection("home").where("like", isEqualTo: true).get();
+    listOfLiked.clear();
+    listOfLikedId.clear();
+    for(var element in res.docs){
+      var resCategory = await firestore
+          .collection("category")
+          .doc(element.data()["category"])
+          .get();
+      listOfLiked
+          .add(HomeModel.fromJson(element.data(), resCategory.data()?["name"]));
+      listOfLikedId.add(element.id);
+    }
+    isLikedLoading = false;
+    notifyListeners();
+  }
+
+// getCategoryName() async {
+//   isCategoryLoading = true;
+//   notifyListeners();
+//   listOfCategoryName.clear();
+//   for(int i=0; i<listOfCategoryId.length; i++){
+//     final docRef = await firestore.collection("category").doc(listOfCategoryId[i]).get();
+//     var name = CategoryModel.fromJson(docRef.data()!);
+//     listOfCategoryName.add(name.name);
+//   }
+//   print("getName ${listOfCategoryId.length}");
+//  // print(listOfCategoryName);
+//   isCategoryLoading = false;
+//   notifyListeners();
+//   //notifyListeners();
+// }
 }
