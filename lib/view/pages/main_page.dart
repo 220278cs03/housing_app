@@ -6,7 +6,7 @@ import 'package:proste_indexed_stack/proste_indexed_stack.dart';
 
 import '../style/style.dart';
 import 'chat_page.dart';
-import 'home_page.dart';
+import 'home/home_page.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({Key? key}) : super(key: key);

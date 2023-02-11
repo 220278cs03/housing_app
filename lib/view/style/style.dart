@@ -18,6 +18,7 @@ class Style {
   static const whiteColor = Color(0xffFFFFFF);
   static const blackColor = Color(0xff09101D);
   static const primaryBlue = Color(0xff2972FE);
+  static const yellowColor = Color(0xffFFB800);
 
   //------------------------ CategoryStyle -------------------------------------//
 
@@ -33,6 +34,10 @@ class Style {
 
   static const titleTextColor = Color(0xff2C3A4B);
   static const ratingTextColor = Color(0xff394452);
+  static const monthColor = Color(0xff6D7580);
+
+  //----------------------- ShadowStyle ----------------------------------------//
+  static const shadowColor = Color(0x085A6CEA);
 
   //----------------------- TextStyle ------------------------------------------//
 
