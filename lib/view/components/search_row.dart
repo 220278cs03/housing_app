@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../../controller/home_controller.dart';
 import '../style/style.dart';
+import 'delayed.dart';
 
 class SearchRow extends StatefulWidget {
   const SearchRow({Key? key}) : super(key: key);
@@ -13,15 +14,21 @@ class SearchRow extends StatefulWidget {
 }
 
 class _SearchRowState extends State<SearchRow> {
+  TextEditingController controller = TextEditingController();
+  final _delayed = Delayed(milliseconds: 700);
+
   @override
   Widget build(BuildContext context) {
     final event = context.read<HomeController>();
+    final state = context.watch<HomeController>();
     return Row(
       children: [
         Expanded(
           child: TextFormField(
             onChanged: (s) {
-              event.searchHome(s);
+              _delayed.run(() async {
+                event.searchHome(s);
+              });
             },
             decoration: InputDecoration(
                 contentPadding:
@@ -39,7 +46,7 @@ class _SearchRowState extends State<SearchRow> {
                 fillColor: Style.searchBgColor,
                 hintText: "Search",
                 hintStyle: Style.textStyleThin(),
-                suffixIcon: const Icon(
+                suffixIcon: Icon(
                   Icons.search,
                   color: Style.searchIconColor,
                 )),

@@ -33,8 +33,7 @@ class HomeController extends ChangeNotifier {
   }
 
   getLikedByCategory(String categoryName) {
-    categoryName == "All" ? getAllLiked() :
-    listOfLikedByCategory.clear();
+    categoryName == "All" ? getAllLiked() : listOfLikedByCategory.clear();
     listOfLikedByCategoryId.clear();
     for (int i = 0; i < listOfLiked.length; i++) {
       if (listOfLiked[i].category == categoryName) {
@@ -130,23 +129,6 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // byCategory(String categoryName) async {
-  //   var res;
-  //   res = await firestore.collection("home").where(
-  //       "category", isEqualTo: categoryName).get();
-  //   listOfHomeByCategory.clear();
-  //   for (var element in res.docs) {
-  //     var resCategory = await firestore
-  //         .collection("category")
-  //         .doc(element.data()["category"])
-  //         .get();
-  //     listOfHomeByCategory
-  //         .add(HomeModel.fromJson(element.data(), resCategory.data()?["name"]));
-  //     listOfHomeByCategoryId.add(element.id);
-  //   }
-  //   print(listOfHomeByCategory.first);
-  // }
-
   byCategory(String categoryName) {
     listOfHomeByCategory.clear();
     listOfHomeByCategoryId.clear();
@@ -161,12 +143,12 @@ class HomeController extends ChangeNotifier {
   }
 
   searchHome(String s) async {
+    listOfHome.clear();
+    listOfHomeId.clear();
     var res = await firestore
         .collection("home")
         .orderBy("name")
         .startAt([s]).endAt(["$s\uf8ff"]).get();
-    listOfHome.clear();
-    listOfHomeId.clear();
     for (var element in res.docs) {
       var resCategory = await firestore
           .collection("category")
@@ -178,20 +160,4 @@ class HomeController extends ChangeNotifier {
     }
     notifyListeners();
   }
-
-  // getCategoryName() async {
-//   isCategoryLoading = true;
-//   notifyListeners();
-//   listOfCategoryName.clear();
-//   for(int i=0; i<listOfCategoryId.length; i++){
-//     final docRef = await firestore.collection("category").doc(listOfCategoryId[i]).get();
-//     var name = CategoryModel.fromJson(docRef.data()!);
-//     listOfCategoryName.add(name.name);
-//   }
-//   print("getName ${listOfCategoryId.length}");
-//  // print(listOfCategoryName);
-//   isCategoryLoading = false;
-//   notifyListeners();
-//   //notifyListeners();
-// }
 }

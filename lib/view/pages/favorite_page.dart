@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/home_controller.dart';
+import '../components/favorite_top_row.dart';
+import '../components/main_element.dart';
 import '../style/style.dart';
 
 class FavoritePage extends StatefulWidget {
@@ -13,8 +15,6 @@ class FavoritePage extends StatefulWidget {
 }
 
 class _FavoritePageState extends State<FavoritePage> {
-  List listOfCategoryName = ["All", "House", "Villa", "Apartment"];
-
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -33,73 +33,9 @@ class _FavoritePageState extends State<FavoritePage> {
         body: Padding(
       padding: const EdgeInsets.only(top: 39, left: 24, right: 24),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Row(
-          children: [
-            Text(
-              "Favorite",
-              style: Style.textStyleRegular(size: 26),
-            ),
-            const Spacer(),
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Style.bgCategory,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Style.shadowColor,
-                        offset: Offset(0, 0),
-                        blurRadius: 50)
-                  ]),
-              child: const Icon(Icons.search, color: Style.primaryBlue),
-            ),
-            16.horizontalSpace,
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  color: Style.bgCategory,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Style.shadowColor,
-                        offset: Offset(0, 0),
-                        blurRadius: 50)
-                  ]),
-              child: const Icon(Icons.filter_list, color: Style.primaryBlue),
-            ),
-          ],
-        ),
+        FavoriteTopRow(),
         26.verticalSpace,
-        SizedBox(
-          height: 36,
-          child: ListView.builder(
-              itemCount: 4,
-              scrollDirection: Axis.horizontal,
-              physics: const BouncingScrollPhysics(),
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(24),
-                        border: Border.all(color: Style.primaryBlue),
-                        color: index == state.selectedIndex ? Style.primaryBlue : Style.whiteColor),
-                    child: Text(
-                      listOfCategoryName[index],
-                      style: Style.textStyleRegular(
-                          size: 16, textColor:index == state.selectedIndex ? Style.whiteColor : Style.primaryBlue),
-                    ),
-                  ),
-                  onTap: (){
-                    event.changeIndex(index);
-                     event.getLikedByCategory(listOfCategoryName[index]);
-                  },
-                );
-              }),
-        ),
-        !state.isLike || state.listOfLikedByCategory.isEmpty
+        !state.isLike // || state.listOfLikedByCategory.isEmpty
             ? Padding(
                 padding: const EdgeInsets.only(top: 120),
                 child: Center(
@@ -273,11 +209,11 @@ class _FavoritePageState extends State<FavoritePage> {
                                                   builder:
                                                       (BuildContext context) {
                                                     return Container(
-                                                      padding:
-                                                          EdgeInsets.only(
-                                                              left: 24,
-                                                              right: 24,
-                                                              top: 48),
+                                                    height: MediaQuery.of(context).size.height*0.75,
+                                                      padding: EdgeInsets.only(
+                                                          left: 24,
+                                                          right: 24,
+                                                          top: 48),
                                                       decoration: BoxDecoration(
                                                           color:
                                                               Style.whiteColor,
@@ -290,186 +226,107 @@ class _FavoritePageState extends State<FavoritePage> {
                                                                       .circular(
                                                                           40))),
                                                       child: Column(children: [
-                                                        Container(
-                                                          width: MediaQuery.of(
-                                                                  context)
-                                                              .size
-                                                              .width,
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  bottom: 24),
-                                                          decoration: BoxDecoration(
-                                                              color: Style
-                                                                  .whiteColor,
-                                                              border: Border.all(
-                                                                  color: Style
-                                                                      .borderCategory),
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          20)),
-                                                          child: Column(
-                                                              children: [
-                                                                Container(
-                                                                  height: 160,
-                                                                  width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width,
-                                                                  decoration: BoxDecoration(
-                                                                      color: Style
-                                                                          .borderCategory,
-                                                                      borderRadius: const BorderRadius
-                                                                              .only(
-                                                                          topRight: Radius.circular(
-                                                                              20),
-                                                                          topLeft: Radius.circular(
-                                                                              20)),
-                                                                      image: DecorationImage(
-                                                                          image: NetworkImage(state
-                                                                              .listOfLiked[index]
-                                                                              .image),
-                                                                          fit: BoxFit.cover)),
-                                                                  child:
-                                                                      Padding(
-                                                                    padding:
-                                                                        const EdgeInsets.all(
-                                                                            16),
-                                                                    child: Row(
-                                                                      mainAxisAlignment:
-                                                                          MainAxisAlignment
-                                                                              .spaceBetween,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        const SizedBox
-                                                                            .shrink(),
-                                                                        Container(
-                                                                          padding: const EdgeInsets.symmetric(
-                                                                              horizontal: 8,
-                                                                              vertical: 4),
-                                                                          decoration: BoxDecoration(
-                                                                              color: Style.whiteColor.withOpacity(0.2),
-                                                                              borderRadius: BorderRadius.circular(6)),
-                                                                          child:
-                                                                              Row(
-                                                                            children: [
-                                                                              const Icon(
-                                                                                Icons.star,
-                                                                                color: Style.yellowColor,
-                                                                                size: 18,
-                                                                              ),
-                                                                              4.horizontalSpace,
-                                                                              Text(
-                                                                                "${state.listOfLiked[index].rate}",
-                                                                                style: Style.textStyleRegular(size: 16, textColor: Style.ratingTextColor),
-                                                                              )
-                                                                            ],
-                                                                          ),
-                                                                        )
-                                                                      ],
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      horizontal:
-                                                                          16,
-                                                                      vertical:
-                                                                          16),
-                                                                  child: Column(
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Row(
-                                                                          children: [
-                                                                            Container(
-                                                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                                                              decoration: BoxDecoration(color: Style.whiteColor, borderRadius: BorderRadius.circular(100), border: Border.all(color: Style.primaryBlue)),
-                                                                              child: Text(
-                                                                                state.listOfLiked[index].category,
-                                                                                style: Style.textStyleRegular(size: 11, textColor: Style.primaryBlue),
-                                                                              ),
-                                                                            ),
-                                                                            const Spacer(),
-                                                                            RichText(
-                                                                                text: TextSpan(children: [
-                                                                              TextSpan(text: "\$${state.listOfLiked[index].price}", style: Style.textStyleRegular(size: 18, textColor: Style.primaryBlue)),
-                                                                              TextSpan(text: " /month", style: Style.textStyleThin(size: 11, textColor: Style.monthColor))
-                                                                            ]))
-                                                                          ],
-                                                                        ),
-                                                                        9.verticalSpace,
-                                                                        Text(
-                                                                          state
-                                                                              .listOfLiked[index]
-                                                                              .name,
-                                                                          style:
-                                                                              Style.textStyleRegular(size: 18),
-                                                                          overflow:
-                                                                              TextOverflow.ellipsis,
-                                                                          maxLines:
-                                                                              1,
-                                                                        ),
-                                                                        Row(
-                                                                          children: [
-                                                                            const Icon(
-                                                                              Icons.location_on,
-                                                                              color: Style.primaryBlue,
-                                                                            ),
-                                                                            4.horizontalSpace,
-                                                                            Text(
-                                                                              state.listOfLiked[index].location,
-                                                                              style: Style.textStyleThin(size: 11),
-                                                                            ),
-                                                                            const Spacer(),
-                                                                            Icon(
-                                                                              Icons.favorite,
-                                                                              color: Style.primaryBlue,
-                                                                            )
-                                                                          ],
-                                                                        ),
-                                                                      ]),
-                                                                )
-                                                              ]),
+                                                        MainElement(
+                                                          name: state
+                                                              .listOfLiked[
+                                                                  index]
+                                                              .name,
+                                                          location: state
+                                                              .listOfLiked[
+                                                                  index]
+                                                              .location,
+                                                          category: state
+                                                              .listOfLiked[
+                                                                  index]
+                                                              .category,
+                                                          price: state
+                                                              .listOfLiked[
+                                                                  index]
+                                                              .price,
+                                                          rate: state
+                                                              .listOfLiked[
+                                                                  index]
+                                                              .rate,
+                                                          like: true,
+                                                          image: state
+                                                              .listOfLiked[
+                                                                  index]
+                                                              .image,
                                                         ),
-                                                        Text("Remove from favorite?", style: Style.textStyleRegular(size: 16, textColor: Style.titleTextColor),),
+                                                        Text(
+                                                          "Remove from favorite?",
+                                                          style: Style
+                                                              .textStyleRegular(
+                                                                  size: 16,
+                                                                  textColor: Style
+                                                                      .titleTextColor),
+                                                        ),
                                                         16.verticalSpace,
                                                         Row(
                                                           children: [
                                                             GestureDetector(
                                                               child: Container(
-                                                                width: (MediaQuery.of(context).size.width - 56) / 2,
+                                                                width: (MediaQuery.of(context)
+                                                                            .size
+                                                                            .width -
+                                                                        56) /
+                                                                    2,
                                                                 height: 55,
                                                                 decoration: BoxDecoration(
-                                                                  color: Style.whiteColor,
-                                                                  border: Border.all(color: Style.primaryBlue),
-                                                                  borderRadius: BorderRadius.circular(32)
-                                                                ),
-                                                                child: Center(child: Text("Cancel", style: Style.textStyleRegular(size: 18, textColor: Style.primaryBlue),)),
+                                                                    color: Style
+                                                                        .whiteColor,
+                                                                    border: Border.all(
+                                                                        color: Style
+                                                                            .primaryBlue),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            32)),
+                                                                child: Center(
+                                                                    child: Text(
+                                                                  "Cancel",
+                                                                  style: Style.textStyleRegular(
+                                                                      size: 18,
+                                                                      textColor:
+                                                                          Style
+                                                                              .primaryBlue),
+                                                                )),
                                                               ),
-                                                              onTap: (){
-                                                                Navigator.pop(context);
+                                                              onTap: () {
+                                                                Navigator.pop(
+                                                                    context);
                                                               },
                                                             ),
                                                             8.horizontalSpace,
                                                             GestureDetector(
                                                               child: Container(
-                                                                width: (MediaQuery.of(context).size.width - 56) / 2,
+                                                                width: (MediaQuery.of(context)
+                                                                            .size
+                                                                            .width -
+                                                                        56) /
+                                                                    2,
                                                                 height: 55,
                                                                 decoration: BoxDecoration(
-                                                                    gradient: Style.selectedGradientBottomNav,
-                                                                    borderRadius: BorderRadius.circular(32)
-                                                                ),
-                                                                child: Center(child: Text("Yes, Remove", style: Style.textStyleRegular(size: 18, textColor: Style.whiteColor),)),
+                                                                    gradient: Style
+                                                                        .selectedGradientBottomNav,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            32)),
+                                                                child: Center(
+                                                                    child: Text(
+                                                                  "Yes, Remove",
+                                                                  style: Style.textStyleRegular(
+                                                                      size: 18,
+                                                                      textColor:
+                                                                          Style
+                                                                              .whiteColor),
+                                                                )),
                                                               ),
-                                                              onTap: (){
-                                                                event.deleteLike(index);
-                                                                Navigator.pop(context);
+                                                              onTap: () {
+                                                                event
+                                                                    .deleteLike(
+                                                                        index);
+                                                                Navigator.pop(
+                                                                    context);
                                                               },
                                                             )
                                                           ],

@@ -16,12 +16,12 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  List<IndexedStackChild> listOfPage = [
-    IndexedStackChild(child: const HomePage()),
-    IndexedStackChild(child: const SearchPage()),
-    IndexedStackChild(child:  const FavoritePage()),
-    IndexedStackChild(child: const ChatPage()),
-    IndexedStackChild(child: const ProfilePage())
+  List<Widget> listOfPage = [
+    const HomePage(),
+    const SearchPage(),
+    const FavoritePage(),
+    const ChatPage(),
+    const ProfilePage()
   ];
 
   int index = 0;
@@ -29,10 +29,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ProsteIndexedStack(
-        index: index,
-        children: listOfPage,
-      ),
+      body: listOfPage[index],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
