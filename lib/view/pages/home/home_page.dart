@@ -4,6 +4,8 @@ import 'package:housing_app/controller/home_controller.dart';
 import 'package:housing_app/view/pages/home/separate_page.dart';
 import 'package:provider/provider.dart';
 
+import '../../components/home_top_row.dart';
+import '../../components/search_row.dart';
 import '../../style/style.dart';
 
 class HomePage extends StatefulWidget {
@@ -34,108 +36,12 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        "Location",
-                        style: Style.textStyleThin(
-                            textColor: Style.searchIconColor),
-                      ),
-                      4.horizontalSpace,
-                      const Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Style.searchIconColor,
-                      )
-                    ],
-                  ),
-                  4.verticalSpace,
-                  Row(
-                    children: [
-                      const Icon(
-                        Icons.location_on,
-                        color: Style.primaryBlue,
-                      ),
-                      6.horizontalSpace,
-                      Text(
-                        "Surabaya, Indonesia",
-                        style: Style.textStyleRegular(size: 18),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              const Spacer(),
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Style.bgCategory,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: const [
-                      BoxShadow(
-                          color: Style.shadowColor,
-                          offset: Offset(0, 0),
-                          blurRadius: 50)
-                    ]),
-                child: GestureDetector(
-                  child:
-                      const Icon(Icons.notifications, color: Style.primaryBlue),
-                  onTap: () {
-                  },
-                ),
-              )
-            ],
-          ),
+          const HomeTopRow(),
           22.verticalSpace,
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 28, vertical: 12),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          borderSide: BorderSide.none),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          borderSide: BorderSide.none),
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(100),
-                          borderSide: BorderSide.none),
-                      filled: true,
-                      fillColor: Style.searchBgColor,
-                      hintText: "Search",
-                      hintStyle: Style.textStyleThin(),
-                      suffixIcon: const Icon(
-                        Icons.search,
-                        color: Style.searchIconColor,
-                      )),
-                ),
-              ),
-              12.horizontalSpace,
-              Container(
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    color: Style.bgCategory,
-                    borderRadius: BorderRadius.circular(12),
-                    boxShadow: const [
-                      BoxShadow(
-                          color: Style.shadowColor,
-                          offset: Offset(0, 0),
-                          blurRadius: 50)
-                    ]),
-                child: const Icon(Icons.filter_list, color: Style.primaryBlue),
-              )
-            ],
-          ),
+          const SearchRow(),
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(top: 24),
+              padding: const EdgeInsets.only(top: 24),
               child: SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 child: Column(
@@ -143,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                         height: 135,
                         child: state.isCategoryLoading
-                            ? Center(
+                            ? const Center(
                                 child: CircularProgressIndicator(
                                 color: Style.primaryBlue,
                               ))
@@ -159,7 +65,8 @@ class _HomePageState extends State<HomePage> {
                                       margin: const EdgeInsets.only(right: 16),
                                       decoration: BoxDecoration(
                                           color: Style.whiteColor,
-                                          borderRadius: BorderRadius.circular(20),
+                                          borderRadius:
+                                              BorderRadius.circular(20),
                                           border: Border.all(
                                               color: Style.borderCategory)),
                                       child: Column(
@@ -167,18 +74,23 @@ class _HomePageState extends State<HomePage> {
                                           Container(
                                               height: 60,
                                               width: 60,
-                                              padding: const EdgeInsets.symmetric(
-                                                  horizontal: 18, vertical: 20),
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 18,
+                                                      vertical: 20),
                                               decoration: const BoxDecoration(
                                                   shape: BoxShape.circle,
                                                   color: Style.bgCategory),
                                               child: Image(
                                                 image: AssetImage(state
-                                                            .listOfCategory[index]
+                                                            .listOfCategory[
+                                                                index]
                                                             .name ==
                                                         "House"
                                                     ? "assets/image/house.png"
-                                                    : state.listOfCategory[index]
+                                                    : state
+                                                                .listOfCategory[
+                                                                    index]
                                                                 .name ==
                                                             "Villa"
                                                         ? "assets/image/villa.png"
@@ -232,7 +144,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: 275,
                       child: state.isProductLoading
-                          ? Center(
+                          ? const Center(
                               child: CircularProgressIndicator(
                               color: Style.primaryBlue,
                             ))
@@ -246,8 +158,8 @@ class _HomePageState extends State<HomePage> {
                                   margin: const EdgeInsets.only(right: 20),
                                   decoration: BoxDecoration(
                                       color: Style.whiteColor,
-                                      border:
-                                          Border.all(color: Style.borderCategory),
+                                      border: Border.all(
+                                          color: Style.borderCategory),
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Column(
                                     children: [
@@ -256,9 +168,12 @@ class _HomePageState extends State<HomePage> {
                                         width: 220,
                                         decoration: BoxDecoration(
                                             color: Style.borderCategory,
-                                            borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(20),
-                                                topLeft: Radius.circular(20)),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topRight:
+                                                        Radius.circular(20),
+                                                    topLeft:
+                                                        Radius.circular(20)),
                                             image: DecorationImage(
                                                 image: NetworkImage(state
                                                     .listOfHome[index].image),
@@ -281,7 +196,8 @@ class _HomePageState extends State<HomePage> {
                                                     color: Style.whiteColor
                                                         .withOpacity(0.2),
                                                     borderRadius:
-                                                        BorderRadius.circular(6)),
+                                                        BorderRadius.circular(
+                                                            6)),
                                                 child: Row(
                                                   children: [
                                                     const Icon(
@@ -314,24 +230,26 @@ class _HomePageState extends State<HomePage> {
                                             Row(
                                               children: [
                                                 Container(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                          horizontal: 8,
-                                                          vertical: 4),
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 4),
                                                   decoration: BoxDecoration(
                                                       color: Style.whiteColor,
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               100),
                                                       border: Border.all(
-                                                          color:
-                                                              Style.primaryBlue)),
+                                                          color: Style
+                                                              .primaryBlue)),
                                                   child: Text(
-                                                    state.listOfHome[index].category,
-                                                    style: Style.textStyleRegular(
-                                                        size: 11,
-                                                        textColor:
-                                                            Style.primaryBlue),
+                                                    state.listOfHome[index]
+                                                        .category,
+                                                    style:
+                                                        Style.textStyleRegular(
+                                                            size: 11,
+                                                            textColor: Style
+                                                                .primaryBlue),
                                                   ),
                                                 ),
                                                 const Spacer(),
@@ -340,17 +258,18 @@ class _HomePageState extends State<HomePage> {
                                                   TextSpan(
                                                       text:
                                                           "\$${state.listOfHome[index].price}",
-                                                      style:
-                                                          Style.textStyleRegular(
+                                                      style: Style
+                                                          .textStyleRegular(
                                                               size: 18,
                                                               textColor: Style
                                                                   .primaryBlue)),
                                                   TextSpan(
                                                       text: " /month",
-                                                      style: Style.textStyleThin(
-                                                          size: 11,
-                                                          textColor:
-                                                              Style.monthColor))
+                                                      style:
+                                                          Style.textStyleThin(
+                                                              size: 11,
+                                                              textColor: Style
+                                                                  .monthColor))
                                                 ]))
                                               ],
                                             ),
@@ -370,21 +289,23 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 4.horizontalSpace,
                                                 Text(
-                                                  state
-                                                      .listOfHome[index].location,
+                                                  state.listOfHome[index]
+                                                      .location,
                                                   style: Style.textStyleThin(
                                                       size: 11),
                                                 ),
                                                 const Spacer(),
-                                                 GestureDetector(
-                                                   child: Icon( state.listOfHome[index].like ?
-                                                    Icons.favorite : Icons.favorite_border,
+                                                GestureDetector(
+                                                  child: Icon(
+                                                    state.listOfHome[index].like
+                                                        ? Icons.favorite
+                                                        : Icons.favorite_border,
                                                     color: Style.primaryBlue,
-                                                ),
-                                                   onTap: (){
-                                                     event.changeLike(index);
-                                                   },
-                                                 )
+                                                  ),
+                                                  onTap: () {
+                                                    event.changeLike(index);
+                                                  },
+                                                )
                                               ],
                                             )
                                           ],
@@ -422,7 +343,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(
                       height: 275,
                       child: state.isProductLoading
-                          ? Center(
+                          ? const Center(
                               child: CircularProgressIndicator(
                               color: Style.primaryBlue,
                             ))
@@ -436,8 +357,8 @@ class _HomePageState extends State<HomePage> {
                                   margin: const EdgeInsets.only(right: 20),
                                   decoration: BoxDecoration(
                                       color: Style.whiteColor,
-                                      border:
-                                          Border.all(color: Style.borderCategory),
+                                      border: Border.all(
+                                          color: Style.borderCategory),
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Column(
                                     children: [
@@ -446,9 +367,12 @@ class _HomePageState extends State<HomePage> {
                                         width: 220,
                                         decoration: BoxDecoration(
                                             color: Style.borderCategory,
-                                            borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(20),
-                                                topLeft: Radius.circular(20)),
+                                            borderRadius:
+                                                const BorderRadius.only(
+                                                    topRight:
+                                                        Radius.circular(20),
+                                                    topLeft:
+                                                        Radius.circular(20)),
                                             image: DecorationImage(
                                                 image: NetworkImage(state
                                                     .listOfHome[index].image),
@@ -471,7 +395,8 @@ class _HomePageState extends State<HomePage> {
                                                     color: Style.whiteColor
                                                         .withOpacity(0.2),
                                                     borderRadius:
-                                                        BorderRadius.circular(6)),
+                                                        BorderRadius.circular(
+                                                            6)),
                                                 child: Row(
                                                   children: [
                                                     const Icon(
@@ -504,24 +429,25 @@ class _HomePageState extends State<HomePage> {
                                             Row(
                                               children: [
                                                 Container(
-                                                  padding:
-                                                      const EdgeInsets.symmetric(
-                                                          horizontal: 8,
-                                                          vertical: 4),
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 8,
+                                                      vertical: 4),
                                                   decoration: BoxDecoration(
                                                       color: Style.whiteColor,
                                                       borderRadius:
                                                           BorderRadius.circular(
                                                               100),
                                                       border: Border.all(
-                                                          color:
-                                                              Style.primaryBlue)),
+                                                          color: Style
+                                                              .primaryBlue)),
                                                   child: Text(
                                                     "Apartment",
-                                                    style: Style.textStyleRegular(
-                                                        size: 11,
-                                                        textColor:
-                                                            Style.primaryBlue),
+                                                    style:
+                                                        Style.textStyleRegular(
+                                                            size: 11,
+                                                            textColor: Style
+                                                                .primaryBlue),
                                                   ),
                                                 ),
                                                 const Spacer(),
@@ -530,17 +456,18 @@ class _HomePageState extends State<HomePage> {
                                                   TextSpan(
                                                       text:
                                                           "\$${state.listOfHome[index].price}",
-                                                      style:
-                                                          Style.textStyleRegular(
+                                                      style: Style
+                                                          .textStyleRegular(
                                                               size: 18,
                                                               textColor: Style
                                                                   .primaryBlue)),
                                                   TextSpan(
                                                       text: " /month",
-                                                      style: Style.textStyleThin(
-                                                          size: 11,
-                                                          textColor:
-                                                              Style.monthColor))
+                                                      style:
+                                                          Style.textStyleThin(
+                                                              size: 11,
+                                                              textColor: Style
+                                                                  .monthColor))
                                                 ]))
                                               ],
                                             ),
@@ -560,8 +487,8 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                                 4.horizontalSpace,
                                                 Text(
-                                                  state
-                                                      .listOfHome[index].location,
+                                                  state.listOfHome[index]
+                                                      .location,
                                                   style: Style.textStyleThin(
                                                       size: 11),
                                                 ),

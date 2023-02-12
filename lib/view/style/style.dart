@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Style {
@@ -19,6 +19,7 @@ class Style {
   static const blackColor = Color(0xff09101D);
   static const primaryBlue = Color(0xff2972FE);
   static const yellowColor = Color(0xffFFB800);
+  static const transparentColor = Colors.transparent;
 
   //------------------------ CategoryStyle -------------------------------------//
 

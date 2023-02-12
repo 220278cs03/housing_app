@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
+import '../../../controller/home_controller.dart';
 import '../../style/style.dart';
 
 class SeparatePage extends StatefulWidget {
@@ -13,8 +15,20 @@ class SeparatePage extends StatefulWidget {
 }
 
 class _SeparatePageState extends State<SeparatePage> {
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeController>()
+        ..byCategory(widget.title);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final event = context.read<HomeController>();
+    final state = context.watch<HomeController>();
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.only(top: 39, left: 24, right: 24),
@@ -56,7 +70,7 @@ class _SeparatePageState extends State<SeparatePage> {
             26.verticalSpace,
             Expanded(
               child: ListView.builder(
-                  itemCount: 5,
+                  itemCount: state.listOfHomeByCategory.length,
                   physics: const BouncingScrollPhysics(),
                   itemBuilder: (context, index) {
                     return Container(
@@ -71,11 +85,16 @@ class _SeparatePageState extends State<SeparatePage> {
                           Container(
                             height: 160,
                             width: MediaQuery.of(context).size.width,
-                            decoration: const BoxDecoration(
-                                color: Style.primaryBlue,
+                            decoration:  BoxDecoration(
+                                color: Style.borderCategory,
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(20),
-                                    topLeft: Radius.circular(20))),
+                                    topLeft: Radius.circular(20)),
+                                image: DecorationImage(
+                                    image: NetworkImage(state
+                                        .listOfHomeByCategory[index].image),
+                                    fit: BoxFit.cover)
+                            ),
                             child: Padding(
                               padding: const EdgeInsets.all(16),
                               child: Row(
@@ -100,7 +119,8 @@ class _SeparatePageState extends State<SeparatePage> {
                                         ),
                                         4.horizontalSpace,
                                         Text(
-                                          "4.5",
+                                          "${state
+                                              .listOfHomeByCategory[index].rate}",
                                           style: Style.textStyleRegular(
                                               size: 16,
                                               textColor: Style.ratingTextColor),
@@ -130,7 +150,8 @@ class _SeparatePageState extends State<SeparatePage> {
                                           border: Border.all(
                                               color: Style.primaryBlue)),
                                       child: Text(
-                                        "Apartment",
+                                        state
+                                            .listOfHomeByCategory[index].category,
                                         style: Style.textStyleRegular(
                                             size: 11,
                                             textColor: Style.primaryBlue),
@@ -140,7 +161,8 @@ class _SeparatePageState extends State<SeparatePage> {
                                     RichText(
                                         text: TextSpan(children: [
                                       TextSpan(
-                                          text: "\$1800",
+                                          text: "\$${state
+                                              .listOfHomeByCategory[index].price}",
                                           style: Style.textStyleRegular(
                                               size: 18,
                                               textColor: Style.primaryBlue)),
@@ -154,7 +176,8 @@ class _SeparatePageState extends State<SeparatePage> {
                                 ),
                                 9.verticalSpace,
                                 Text(
-                                  "Ownert Apartment",
+                                  state
+                                      .listOfHomeByCategory[index].name,
                                   style: Style.textStyleRegular(size: 18),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -167,7 +190,8 @@ class _SeparatePageState extends State<SeparatePage> {
                                     ),
                                     4.horizontalSpace,
                                     Text(
-                                      "Surabaya, Indonesia",
+                                      state
+                                          .listOfHomeByCategory[index].location,
                                       style: Style.textStyleThin(size: 11),
                                     ),
                                     const Spacer(),

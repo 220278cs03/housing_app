@@ -19,7 +19,7 @@ class _MainPageState extends State<MainPage> {
   List<IndexedStackChild> listOfPage = [
     IndexedStackChild(child: const HomePage()),
     IndexedStackChild(child: const SearchPage()),
-    IndexedStackChild(child: const FavoritePage()),
+    IndexedStackChild(child:  const FavoritePage()),
     IndexedStackChild(child: const ChatPage()),
     IndexedStackChild(child: const ProfilePage())
   ];

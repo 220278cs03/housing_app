@@ -9,16 +9,42 @@ class HomeController extends ChangeNotifier {
   List<HomeModel> listOfHome = [];
   List<CategoryModel> listOfCategory = [];
   List<HomeModel> listOfLiked = [];
+  List<HomeModel> listOfHomeByCategory = [];
+  List<HomeModel> listOfLikedByCategory = [];
   List listOfHomeId = [];
   List listOfLikedId = [];
+  List listOfHomeByCategoryId = [];
+  List listOfLikedByCategoryId = [];
   List listOfCategoryName = [];
   bool isProductLoading = false;
   bool isCategoryLoading = false;
   bool isLikedLoading = false;
   bool isLike = false;
-
+  bool isSeparatePageloading = false;
+  bool isCategorySet = false;
+  int selectedIndex = 0;
 
   String categoryName = "";
+
+  changeIndex(index) {
+    selectedIndex = index;
+    isCategorySet = true;
+    notifyListeners();
+  }
+
+  getLikedByCategory(String categoryName) {
+    categoryName == "All" ? getAllLiked() :
+    listOfLikedByCategory.clear();
+    listOfLikedByCategoryId.clear();
+    for (int i = 0; i < listOfLiked.length; i++) {
+      if (listOfLiked[i].category == categoryName) {
+        listOfLikedByCategory.add(listOfLiked[i]);
+        listOfLikedByCategoryId.add(listOfLikedId[i]);
+      }
+    }
+    print(listOfLikedByCategory.first.name);
+    notifyListeners();
+  }
 
   getProduct() async {
     isProductLoading = true;
@@ -54,7 +80,6 @@ class HomeController extends ChangeNotifier {
 
   changeLike(int index) {
     listOfHome[index].like = !listOfHome[index].like;
-    List addDocIdList = [];
     firestore
         .collection("home")
         .doc(listOfHomeId[index])
@@ -62,9 +87,9 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  checkIfThereIsLike(){
-    for(int i=0; i<listOfHome.length; i++){
-      if(listOfHome[i].like){
+  checkIfThereIsLike() {
+    for (int i = 0; i < listOfHome.length; i++) {
+      if (listOfHome[i].like) {
         isLike = true;
         break;
       }
@@ -75,10 +100,11 @@ class HomeController extends ChangeNotifier {
     isLikedLoading = true;
     notifyListeners();
     var res;
-    res = await firestore.collection("home").where("like", isEqualTo: true).get();
+    res =
+        await firestore.collection("home").where("like", isEqualTo: true).get();
     listOfLiked.clear();
     listOfLikedId.clear();
-    for(var element in res.docs){
+    for (var element in res.docs) {
       var resCategory = await firestore
           .collection("category")
           .doc(element.data()["category"])
@@ -91,7 +117,69 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-// getCategoryName() async {
+  deleteLike(int index) async {
+    listOfLiked[index].like = false;
+    await firestore
+        .collection("home")
+        .doc(listOfLikedId[index])
+        .update({"like": listOfLiked[index].like});
+    listOfLiked.removeAt(index);
+    listOfLikedId.removeAt(index);
+    getAllLiked();
+    if (listOfLiked.isEmpty) isLike = false;
+    notifyListeners();
+  }
+
+  // byCategory(String categoryName) async {
+  //   var res;
+  //   res = await firestore.collection("home").where(
+  //       "category", isEqualTo: categoryName).get();
+  //   listOfHomeByCategory.clear();
+  //   for (var element in res.docs) {
+  //     var resCategory = await firestore
+  //         .collection("category")
+  //         .doc(element.data()["category"])
+  //         .get();
+  //     listOfHomeByCategory
+  //         .add(HomeModel.fromJson(element.data(), resCategory.data()?["name"]));
+  //     listOfHomeByCategoryId.add(element.id);
+  //   }
+  //   print(listOfHomeByCategory.first);
+  // }
+
+  byCategory(String categoryName) {
+    listOfHomeByCategory.clear();
+    listOfHomeByCategoryId.clear();
+    for (int i = 0; i < listOfHome.length; i++) {
+      if (listOfHome[i].category == categoryName) {
+        listOfHomeByCategory.add(listOfHome[i]);
+        listOfHomeByCategoryId.add(listOfHomeId[i]);
+      }
+    }
+    print(listOfHomeByCategory.first.category);
+    notifyListeners();
+  }
+
+  searchHome(String s) async {
+    var res = await firestore
+        .collection("home")
+        .orderBy("name")
+        .startAt([s]).endAt(["$s\uf8ff"]).get();
+    listOfHome.clear();
+    listOfHomeId.clear();
+    for (var element in res.docs) {
+      var resCategory = await firestore
+          .collection("category")
+          .doc(element.data()["category"])
+          .get();
+      listOfHome
+          .add(HomeModel.fromJson(element.data(), resCategory.data()?["name"]));
+      listOfHomeId.add(element.id);
+    }
+    notifyListeners();
+  }
+
+  // getCategoryName() async {
 //   isCategoryLoading = true;
 //   notifyListeners();
 //   listOfCategoryName.clear();
