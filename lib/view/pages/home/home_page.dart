@@ -133,9 +133,9 @@ class _HomePageState extends State<HomePage> {
                                 size: 16, textColor: Style.primaryBlue),
                           ),
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                                builder: (_) =>
-                                    const SeparatePage(title: "Popular")));
+                            // Navigator.of(context).push(MaterialPageRoute(
+                            //     builder: (_) =>
+                            //         const SeparatePage(title: "Popular")));
                           },
                         ),
                       ],
@@ -442,7 +442,8 @@ class _HomePageState extends State<HomePage> {
                                                           color: Style
                                                               .primaryBlue)),
                                                   child: Text(
-                                                    "Apartment",
+                                                    state.listOfHome[index]
+                                                        .category,
                                                     style:
                                                         Style.textStyleRegular(
                                                             size: 11,
@@ -493,9 +494,16 @@ class _HomePageState extends State<HomePage> {
                                                       size: 11),
                                                 ),
                                                 const Spacer(),
-                                                const Icon(
-                                                  Icons.favorite_border,
-                                                  color: Style.primaryBlue,
+                                                GestureDetector(
+                                                  child: Icon(
+                                                    state.listOfHome[index].like
+                                                        ? Icons.favorite
+                                                        : Icons.favorite_border,
+                                                    color: Style.primaryBlue,
+                                                  ),
+                                                  onTap: () {
+                                                    event.changeLike(index);
+                                                  },
                                                 )
                                               ],
                                             )

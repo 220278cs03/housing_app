@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:housing_app/controller/home_controller.dart';
@@ -44,7 +46,7 @@ class MainElement extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
                 color: Style.borderCategory,
-                borderRadius: BorderRadius.only(
+                borderRadius: const BorderRadius.only(
                     topRight: Radius.circular(20),
                     topLeft: Radius.circular(20)),
                 image: DecorationImage(
@@ -142,7 +144,6 @@ class MainElement extends StatelessWidget {
                     ),
                        onTap: (){
                          event.changeLike(index!);
-                         print("hefkj");
                        },
                      )
                   ],

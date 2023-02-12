@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
 import '../../controller/home_controller.dart';
+import '../components/fav_categories.dart';
 import '../components/favorite_top_row.dart';
 import '../components/main_element.dart';
 import '../style/style.dart';
@@ -18,9 +19,7 @@ class _FavoritePageState extends State<FavoritePage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<HomeController>()
-        ..checkIfThereIsLike()
-        ..getAllLiked();
+      context.read<HomeController>().getAllLiked();
     });
     super.initState();
   }
@@ -33,9 +32,10 @@ class _FavoritePageState extends State<FavoritePage> {
         body: Padding(
       padding: const EdgeInsets.only(top: 39, left: 24, right: 24),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        FavoriteTopRow(),
+        const FavoriteTopRow(),
         26.verticalSpace,
-        !state.isLike // || state.listOfLikedByCategory.isEmpty
+        const FavCategories(),
+        state.listOfLiked.isEmpty || state.listOfLikedByCategory.isEmpty
             ? Padding(
                 padding: const EdgeInsets.only(top: 120),
                 child: Center(
@@ -69,8 +69,10 @@ class _FavoritePageState extends State<FavoritePage> {
                   )
                 : Expanded(
                     child: ListView.builder(
-                        padding: EdgeInsets.only(top: 24),
-                        itemCount: state.listOfLiked.length,
+                        padding: const EdgeInsets.only(top: 24),
+                        itemCount: state.isCategorySet
+                            ? state.listOfLikedByCategory.length
+                            : state.listOfLiked.length,
                         itemBuilder: (context, index) {
                           return Container(
                             width: MediaQuery.of(context).size.width,
@@ -90,8 +92,12 @@ class _FavoritePageState extends State<FavoritePage> {
                                           topRight: Radius.circular(20),
                                           topLeft: Radius.circular(20)),
                                       image: DecorationImage(
-                                          image: NetworkImage(
-                                              state.listOfLiked[index].image),
+                                          image: NetworkImage(state
+                                                  .isCategorySet
+                                              ? state
+                                                  .listOfLikedByCategory[index]
+                                                  .image
+                                              : state.listOfLiked[index].image),
                                           fit: BoxFit.cover)),
                                   child: Padding(
                                     padding: const EdgeInsets.all(16),
@@ -119,7 +125,9 @@ class _FavoritePageState extends State<FavoritePage> {
                                               ),
                                               4.horizontalSpace,
                                               Text(
-                                                "${state.listOfLiked[index].rate}",
+                                                state.isCategorySet
+                                                    ? "${state.listOfLikedByCategory[index].rate}"
+                                                    : "${state.listOfLiked[index].rate}",
                                                 style: Style.textStyleRegular(
                                                     size: 16,
                                                     textColor:
@@ -151,7 +159,13 @@ class _FavoritePageState extends State<FavoritePage> {
                                                 border: Border.all(
                                                     color: Style.primaryBlue)),
                                             child: Text(
-                                              state.listOfLiked[index].category,
+                                              state.isCategorySet
+                                                  ? state
+                                                      .listOfLikedByCategory[
+                                                          index]
+                                                      .category
+                                                  : state.listOfLiked[index]
+                                                      .category,
                                               style: Style.textStyleRegular(
                                                   size: 11,
                                                   textColor: Style.primaryBlue),
@@ -161,8 +175,9 @@ class _FavoritePageState extends State<FavoritePage> {
                                           RichText(
                                               text: TextSpan(children: [
                                             TextSpan(
-                                                text:
-                                                    "\$${state.listOfLiked[index].price}",
+                                                text: state.isCategorySet
+                                                    ? "${state.listOfLikedByCategory[index].price}"
+                                                    : "${state.listOfLiked[index].price}",
                                                 style: Style.textStyleRegular(
                                                     size: 18,
                                                     textColor:
@@ -178,7 +193,10 @@ class _FavoritePageState extends State<FavoritePage> {
                                       ),
                                       9.verticalSpace,
                                       Text(
-                                        state.listOfLiked[index].name,
+                                        state.isCategorySet
+                                            ? state.listOfLikedByCategory[index]
+                                                .name
+                                            : state.listOfLiked[index].name,
                                         style: Style.textStyleRegular(size: 18),
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
@@ -191,7 +209,13 @@ class _FavoritePageState extends State<FavoritePage> {
                                           ),
                                           4.horizontalSpace,
                                           Text(
-                                            state.listOfLiked[index].location,
+                                            state.isCategorySet
+                                                ? state
+                                                    .listOfLikedByCategory[
+                                                        index]
+                                                    .location
+                                                : state.listOfLiked[index]
+                                                    .location,
                                             style:
                                                 Style.textStyleThin(size: 11),
                                           ),
@@ -209,12 +233,16 @@ class _FavoritePageState extends State<FavoritePage> {
                                                   builder:
                                                       (BuildContext context) {
                                                     return Container(
-                                                    height: MediaQuery.of(context).size.height*0.75,
-                                                      padding: EdgeInsets.only(
+                                                      height:
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .height *
+                                                              0.75,
+                                                      padding: const EdgeInsets.only(
                                                           left: 24,
                                                           right: 24,
                                                           top: 48),
-                                                      decoration: BoxDecoration(
+                                                      decoration: const BoxDecoration(
                                                           color:
                                                               Style.whiteColor,
                                                           borderRadius:
@@ -227,31 +255,34 @@ class _FavoritePageState extends State<FavoritePage> {
                                                                           40))),
                                                       child: Column(children: [
                                                         MainElement(
-                                                          name: state
-                                                              .listOfLiked[
-                                                                  index]
-                                                              .name,
-                                                          location: state
-                                                              .listOfLiked[
-                                                                  index]
+                                                          name: state.isCategorySet
+                                                              ? state.listOfLikedByCategory[index]
+                                                              .name
+                                                              : state.listOfLiked[index].name,
+                                                          location: state.isCategorySet
+                                                              ? state
+                                                              .listOfLikedByCategory[
+                                                          index]
+                                                              .location
+                                                              : state.listOfLiked[index]
                                                               .location,
-                                                          category: state
-                                                              .listOfLiked[
-                                                                  index]
-                                                              .category,
-                                                          price: state
-                                                              .listOfLiked[
-                                                                  index]
-                                                              .price,
-                                                          rate: state
-                                                              .listOfLiked[
-                                                                  index]
-                                                              .rate,
+                                                          category: state.isCategorySet
+                                                              ? state.listOfLikedByCategory[index]
+                                                              .category
+                                                              : state.listOfLiked[index].category,
+                                                          price: state.isCategorySet
+                                                              ? state.listOfLikedByCategory[index]
+                                                              .price
+                                                              : state.listOfLiked[index].price,
+                                                          rate: state.isCategorySet
+                                                              ? state.listOfLikedByCategory[index]
+                                                              .rate
+                                                              : state.listOfLiked[index].rate,
                                                           like: true,
-                                                          image: state
-                                                              .listOfLiked[
-                                                                  index]
-                                                              .image,
+                                                          image: state.isCategorySet
+                                                              ? state.listOfLikedByCategory[index]
+                                                              .image
+                                                              : state.listOfLiked[index].image,
                                                         ),
                                                         Text(
                                                           "Remove from favorite?",

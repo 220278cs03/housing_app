@@ -20,7 +20,7 @@ class _SearchRowState extends State<SearchRow> {
   @override
   Widget build(BuildContext context) {
     final event = context.read<HomeController>();
-    final state = context.watch<HomeController>();
+    //final state = context.watch<HomeController>();
     return Row(
       children: [
         Expanded(
@@ -46,7 +46,7 @@ class _SearchRowState extends State<SearchRow> {
                 fillColor: Style.searchBgColor,
                 hintText: "Search",
                 hintStyle: Style.textStyleThin(),
-                suffixIcon: Icon(
+                suffixIcon: const Icon(
                   Icons.search,
                   color: Style.searchIconColor,
                 )),

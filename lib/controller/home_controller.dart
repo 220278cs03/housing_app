@@ -28,28 +28,32 @@ class HomeController extends ChangeNotifier {
 
   changeIndex(index) {
     selectedIndex = index;
-    isCategorySet = true;
     notifyListeners();
   }
 
   getLikedByCategory(String categoryName) {
-    categoryName == "All" ? getAllLiked() : listOfLikedByCategory.clear();
-    listOfLikedByCategoryId.clear();
-    for (int i = 0; i < listOfLiked.length; i++) {
-      if (listOfLiked[i].category == categoryName) {
-        listOfLikedByCategory.add(listOfLiked[i]);
-        listOfLikedByCategoryId.add(listOfLikedId[i]);
+    if (categoryName == "All") {
+      //getAllLiked();
+      isCategorySet = false;
+      notifyListeners();
+    } else {
+      listOfLikedByCategory.clear();
+      listOfLikedByCategoryId.clear();
+      for (int i = 0; i < listOfLiked.length; i++) {
+        if (listOfLiked[i].category == categoryName) {
+          listOfLikedByCategory.add(listOfLiked[i]);
+          listOfLikedByCategoryId.add(listOfLikedId[i]);
+        }
       }
+      isCategorySet = true;
+      notifyListeners();
     }
-    print(listOfLikedByCategory.first.name);
-    notifyListeners();
   }
 
   getProduct() async {
     isProductLoading = true;
     notifyListeners();
-    var res;
-    res = await firestore.collection("home").get();
+    var res = await firestore.collection("home").get();
     listOfHome.clear();
     listOfHomeId.clear();
     for (var element in res.docs) {
@@ -86,21 +90,22 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  checkIfThereIsLike() {
-    for (int i = 0; i < listOfHome.length; i++) {
-      if (listOfHome[i].like) {
-        isLike = true;
-        break;
-      }
-    }
-  }
+  // checkIfThereIsLike() {
+  //   if(isCategorySet == false && listOfLiked.isNotEmpty){
+  //     print(isCategorySet);
+  //    isLike = true;
+  //   }else if (isCategorySet == true && listOfLikedByCategory.isEmpty){
+  //     print("sfs");
+  //     print(isCategorySet == true && listOfLikedByCategory.isEmpty);
+  //      isLike = false;
+  //      notifyListeners();
+  //   }
+  // }
 
   getAllLiked() async {
     isLikedLoading = true;
     notifyListeners();
-    var res;
-    res =
-        await firestore.collection("home").where("like", isEqualTo: true).get();
+    var res = await firestore.collection("home").where("like", isEqualTo: true).get();
     listOfLiked.clear();
     listOfLikedId.clear();
     for (var element in res.docs) {
@@ -138,7 +143,6 @@ class HomeController extends ChangeNotifier {
         listOfHomeByCategoryId.add(listOfHomeId[i]);
       }
     }
-    print(listOfHomeByCategory.first.category);
     notifyListeners();
   }
 

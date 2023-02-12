@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../style/style.dart';
 
+// ignore: must_be_immutable
 class SeparateTopRow extends StatefulWidget {
   String title;
   SeparateTopRow({Key? key, required this.title}) : super(key: key);

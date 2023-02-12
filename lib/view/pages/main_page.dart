@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:housing_app/view/pages/favorite_page.dart';
 import 'package:housing_app/view/pages/profile_page.dart';
 import 'package:housing_app/view/pages/search_page.dart';
-import 'package:proste_indexed_stack/proste_indexed_stack.dart';
 
 import '../style/style.dart';
 import 'chat_page.dart';

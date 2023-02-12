@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../../controller/home_controller.dart';
 import '../../components/main_element.dart';
 import '../../components/separate_top_row.dart';
-import '../../style/style.dart';
 
 class SeparatePage extends StatefulWidget {
   final String title;
@@ -20,14 +19,14 @@ class _SeparatePageState extends State<SeparatePage> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<HomeController>()..byCategory(widget.title);
+      context.read<HomeController>().byCategory(widget.title);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final event = context.read<HomeController>();
+    //final event = context.read<HomeController>();
     final state = context.watch<HomeController>();
     return Scaffold(
       body: Padding(

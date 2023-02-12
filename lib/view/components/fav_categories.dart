@@ -46,8 +46,8 @@ class _FavCategoriesState extends State<FavCategories> {
                 ),
               ),
               onTap: () {
-                // event.changeIndex(index);
-                // event.getLikedByCategory(listOfCategoryName[index]);
+                 event.changeIndex(index);
+                 event.getLikedByCategory(listOfCategoryName[index]);
               },
             );
           }),
