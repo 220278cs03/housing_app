@@ -35,8 +35,16 @@ class _FavoritePageState extends State<FavoritePage> {
         const FavoriteTopRow(),
         26.verticalSpace,
         const FavCategories(),
-        state.listOfLiked.isEmpty || state.listOfLikedByCategory.isEmpty
-            ? Padding(
+         (state.isCategorySet ? state.listOfLikedByCategory.isEmpty : state.listOfLiked.isEmpty)
+            ?  state.isLikedLoading
+             ? const Padding(
+           padding: EdgeInsets.only(top: 120),
+           child: Center(
+             child: CircularProgressIndicator(
+               color: Style.primaryBlue,
+             ),
+           ),
+         ) : Padding(
                 padding: const EdgeInsets.only(top: 120),
                 child: Center(
                   child: Column(
@@ -58,15 +66,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   ),
                 ),
               )
-            : state.isLikedLoading
-                ? const Padding(
-                    padding: EdgeInsets.only(top: 120),
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: Style.primaryBlue,
-                      ),
-                    ),
-                  )
+
                 : Expanded(
                     child: ListView.builder(
                         padding: const EdgeInsets.only(top: 24),
@@ -238,10 +238,11 @@ class _FavoritePageState extends State<FavoritePage> {
                                                                   .size
                                                                   .height *
                                                               0.75,
-                                                      padding: const EdgeInsets.only(
-                                                          left: 24,
-                                                          right: 24,
-                                                          top: 48),
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 24,
+                                                              right: 24,
+                                                              top: 48),
                                                       decoration: const BoxDecoration(
                                                           color:
                                                               Style.whiteColor,
@@ -255,34 +256,67 @@ class _FavoritePageState extends State<FavoritePage> {
                                                                           40))),
                                                       child: Column(children: [
                                                         MainElement(
-                                                          name: state.isCategorySet
-                                                              ? state.listOfLikedByCategory[index]
-                                                              .name
-                                                              : state.listOfLiked[index].name,
-                                                          location: state.isCategorySet
+                                                          name: state
+                                                                  .isCategorySet
                                                               ? state
-                                                              .listOfLikedByCategory[
-                                                          index]
-                                                              .location
-                                                              : state.listOfLiked[index]
-                                                              .location,
-                                                          category: state.isCategorySet
-                                                              ? state.listOfLikedByCategory[index]
-                                                              .category
-                                                              : state.listOfLiked[index].category,
-                                                          price: state.isCategorySet
-                                                              ? state.listOfLikedByCategory[index]
-                                                              .price
-                                                              : state.listOfLiked[index].price,
-                                                          rate: state.isCategorySet
-                                                              ? state.listOfLikedByCategory[index]
-                                                              .rate
-                                                              : state.listOfLiked[index].rate,
+                                                                  .listOfLikedByCategory[
+                                                                      index]
+                                                                  .name
+                                                              : state
+                                                                  .listOfLiked[
+                                                                      index]
+                                                                  .name,
+                                                          location: state
+                                                                  .isCategorySet
+                                                              ? state
+                                                                  .listOfLikedByCategory[
+                                                                      index]
+                                                                  .location
+                                                              : state
+                                                                  .listOfLiked[
+                                                                      index]
+                                                                  .location,
+                                                          category: state
+                                                                  .isCategorySet
+                                                              ? state
+                                                                  .listOfLikedByCategory[
+                                                                      index]
+                                                                  .category
+                                                              : state
+                                                                  .listOfLiked[
+                                                                      index]
+                                                                  .category,
+                                                          price: state
+                                                                  .isCategorySet
+                                                              ? state
+                                                                  .listOfLikedByCategory[
+                                                                      index]
+                                                                  .price
+                                                              : state
+                                                                  .listOfLiked[
+                                                                      index]
+                                                                  .price,
+                                                          rate: state
+                                                                  .isCategorySet
+                                                              ? state
+                                                                  .listOfLikedByCategory[
+                                                                      index]
+                                                                  .rate
+                                                              : state
+                                                                  .listOfLiked[
+                                                                      index]
+                                                                  .rate,
                                                           like: true,
-                                                          image: state.isCategorySet
-                                                              ? state.listOfLikedByCategory[index]
-                                                              .image
-                                                              : state.listOfLiked[index].image,
+                                                          image: state
+                                                                  .isCategorySet
+                                                              ? state
+                                                                  .listOfLikedByCategory[
+                                                                      index]
+                                                                  .image
+                                                              : state
+                                                                  .listOfLiked[
+                                                                      index]
+                                                                  .image,
                                                         ),
                                                         Text(
                                                           "Remove from favorite?",

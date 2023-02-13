@@ -5,11 +5,14 @@ import 'package:provider/provider.dart';
 import '../../../controller/home_controller.dart';
 import '../../components/main_element.dart';
 import '../../components/separate_top_row.dart';
+import '../../components/unfocused_tap.dart';
+import '../../style/style.dart';
 
+// ignore: must_be_immutable
 class SeparatePage extends StatefulWidget {
-  final String title;
+  String title;
 
-  const SeparatePage({Key? key, required this.title}) : super(key: key);
+  SeparatePage({Key? key, required this.title}) : super(key: key);
 
   @override
   State<SeparatePage> createState() => _SeparatePageState();
@@ -18,9 +21,6 @@ class SeparatePage extends StatefulWidget {
 class _SeparatePageState extends State<SeparatePage> {
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<HomeController>().byCategory(widget.title);
-    });
     super.initState();
   }
 
@@ -28,32 +28,34 @@ class _SeparatePageState extends State<SeparatePage> {
   Widget build(BuildContext context) {
     //final event = context.read<HomeController>();
     final state = context.watch<HomeController>();
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 39, left: 24, right: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SeparateTopRow(title: widget.title),
-            26.verticalSpace,
-            Expanded(
-              child: ListView.builder(
-                  itemCount: state.listOfHomeByCategory.length,
-                  physics: const BouncingScrollPhysics(),
-                  itemBuilder: (context, index) {
-                    return MainElement(
-                      name: state.listOfHomeByCategory[index].name,
-                      location: state.listOfHomeByCategory[index].location,
-                      category: state.listOfHomeByCategory[index].category,
-                      price: state.listOfHomeByCategory[index].price,
-                      rate: state.listOfHomeByCategory[index].rate,
-                      like: state.listOfHomeByCategory[index].like,
-                      image: state.listOfHomeByCategory[index].image,
-                      index: state.listOfHome.indexOf(state.listOfHomeByCategory[index]),
-                    );
-                  }),
-            ),
-          ],
+    return OnUnFocusTap(
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.only(top: 39, left: 24, right: 24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SeparateTopRow(title: widget.title),
+              26.verticalSpace,
+              state.isSearchEmpty ? Center(child: Text("Nothing found", style:Style.textStyleRegular(size: 18, textColor: Style.primaryBlue))) :
+              Expanded(
+                child: ListView.builder(
+                    itemCount: state.listOfHome.length,
+                    physics: const BouncingScrollPhysics(),
+                    itemBuilder: (context, index) {
+                      return MainElement(
+                          name: state.listOfHome[index].name,
+                          location: state.listOfHome[index].location,
+                          category: state.listOfHome[index].category,
+                          price: state.listOfHome[index].price,
+                          rate: state.listOfHome[index].rate,
+                          like: state.listOfHome[index].like,
+                          image: state.listOfHome[index].image,
+                          index: index);
+                    }),
+              ),
+            ],
+          ),
         ),
       ),
     );

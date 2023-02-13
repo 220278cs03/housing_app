@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:housing_app/view/components/search_row.dart';
+import 'package:provider/provider.dart';
 
+import '../../controller/home_controller.dart';
 import '../style/style.dart';
 
 class FavoriteTopRow extends StatefulWidget {
@@ -13,25 +16,32 @@ class FavoriteTopRow extends StatefulWidget {
 class _FavoriteTopRowState extends State<FavoriteTopRow> {
   @override
   Widget build(BuildContext context) {
-    return Row(
+    final event = context.read<HomeController>();
+    final state = context.watch<HomeController>();
+    return state.isSearching ? SearchRow(isLikePage: true,) : Row(
       children: [
         Text(
           "Favorite",
           style: Style.textStyleRegular(size: 26),
         ),
         const Spacer(),
-        Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              color: Style.bgCategory,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: const [
-                BoxShadow(
-                    color: Style.shadowColor,
-                    offset: Offset(0, 0),
-                    blurRadius: 50)
-              ]),
-          child: const Icon(Icons.search, color: Style.primaryBlue),
+        GestureDetector(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+                color: Style.bgCategory,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: const [
+                  BoxShadow(
+                      color: Style.shadowColor,
+                      offset: Offset(0, 0),
+                      blurRadius: 50)
+                ]),
+            child: const Icon(Icons.search, color: Style.primaryBlue),
+          ),
+          onTap: (){
+            event.enableSearch();
+          },
         ),
         16.horizontalSpace,
         Container(

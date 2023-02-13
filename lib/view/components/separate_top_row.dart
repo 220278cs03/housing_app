@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:housing_app/view/components/search_row.dart';
+import 'package:provider/provider.dart';
 
+import '../../controller/home_controller.dart';
 import '../style/style.dart';
 
 // ignore: must_be_immutable
@@ -15,7 +18,9 @@ class SeparateTopRow extends StatefulWidget {
 class _SeparateTopRowState extends State<SeparateTopRow> {
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    final event = context.read<HomeController>();
+    final state = context.watch<HomeController>();
+    return  state.isSearching ? SearchRow() : Row(
       children: [
         GestureDetector(
           child: const Icon(
@@ -30,6 +35,8 @@ class _SeparateTopRowState extends State<SeparateTopRow> {
         Text(
           widget.title,
           style: Style.textStyleRegular(size: 26),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
         ),
         const Spacer(),
         Container(
@@ -43,7 +50,9 @@ class _SeparateTopRowState extends State<SeparateTopRow> {
                     offset: Offset(0, 0),
                     blurRadius: 50)
               ]),
-          child: const Icon(Icons.search, color: Style.primaryBlue),
+          child: GestureDetector(child: const Icon(Icons.search, color: Style.primaryBlue), onTap: (){
+            event.enableSearch();
+          },),
         )
       ],
     );
