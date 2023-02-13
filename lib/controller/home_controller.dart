@@ -126,16 +126,30 @@ class HomeController extends ChangeNotifier {
   }
 
   deleteLike(int index) async {
-    listOfLiked[index].like = false;
-    await firestore
-        .collection("home")
-        .doc(listOfLikedId[index])
-        .update({"like": listOfLiked[index].like});
-    listOfLiked.removeAt(index);
-    listOfLikedId.removeAt(index);
-    getAllLiked();
-    if (listOfLiked.isEmpty) isLike = false;
-    notifyListeners();
+    if(isCategorySet){
+      listOfLikedByCategory[index].like = false;
+      await firestore
+          .collection("home")
+          .doc(listOfLikedByCategoryId[index])
+          .update({"like": listOfLikedByCategory[index].like});
+      listOfLikedByCategory.removeAt(index);
+      listOfLikedByCategoryId.removeAt(index);
+      getAllLiked();
+      if (listOfLikedByCategory.isEmpty) isLike = false;
+      notifyListeners();
+    }
+    else{
+      listOfLiked[index].like = false;
+      await firestore
+          .collection("home")
+          .doc(listOfLikedId[index])
+          .update({"like": listOfLiked[index].like});
+      listOfLiked.removeAt(index);
+      listOfLikedId.removeAt(index);
+      getAllLiked();
+      if (listOfLiked.isEmpty) isLike = false;
+      notifyListeners();
+    }
   }
 
   byCategory(String categoryName) {

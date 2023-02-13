@@ -50,7 +50,7 @@ class _FavoritePageState extends State<FavoritePage> {
                   child: Column(
                     children: [
                       SizedBox(
-                          height: 280,
+                          height: 200,
                           width: 290,
                           child: Image.asset(
                             "assets/image/not_favorite.png",
@@ -176,8 +176,8 @@ class _FavoritePageState extends State<FavoritePage> {
                                               text: TextSpan(children: [
                                             TextSpan(
                                                 text: state.isCategorySet
-                                                    ? "${state.listOfLikedByCategory[index].price}"
-                                                    : "${state.listOfLiked[index].price}",
+                                                    ? "\$${state.listOfLikedByCategory[index].price}"
+                                                    : "\$${state.listOfLiked[index].price}",
                                                 style: Style.textStyleRegular(
                                                     size: 18,
                                                     textColor:
@@ -226,18 +226,13 @@ class _FavoritePageState extends State<FavoritePage> {
                                               color: Style.primaryBlue,
                                             ),
                                             onTap: () {
-                                              showModalBottomSheet(
+                                              showBottomSheet(
                                                   backgroundColor:
                                                       Style.transparentColor,
                                                   context: context,
                                                   builder:
                                                       (BuildContext context) {
                                                     return Container(
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.75,
                                                       padding:
                                                           const EdgeInsets.only(
                                                               left: 24,
@@ -254,7 +249,9 @@ class _FavoritePageState extends State<FavoritePage> {
                                                                   topRight: Radius
                                                                       .circular(
                                                                           40))),
-                                                      child: Column(children: [
+                                                      child: Column(
+                                                        mainAxisSize: MainAxisSize.min,
+                                                          children: [
                                                         MainElement(
                                                           name: state
                                                                   .isCategorySet
@@ -395,7 +392,8 @@ class _FavoritePageState extends State<FavoritePage> {
                                                               },
                                                             )
                                                           ],
-                                                        )
+                                                        ),
+                                                            16.verticalSpace
                                                       ]),
                                                     );
                                                   });
